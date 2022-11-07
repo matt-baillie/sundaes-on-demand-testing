@@ -40,7 +40,7 @@ export default function Options({ optionType }) {
       <p>
         {title} total: {formatCurrency(totals[optionType])}{" "}
       </p>
-      <Row>{optionItems}</Row>;
+      <Row>{optionItems}</Row>
     </>
   );
 }
