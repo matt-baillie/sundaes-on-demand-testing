@@ -1,11 +1,16 @@
-import "./App.css";
-import OrderSummary from "./pages/summary/OrderSummary";
+import Container from "react-bootstrap/container";
+import { OrderDetailsProvider } from "./contexts/OrderDetails";
+import OrderEntry from "./pages/entry/OrderEntry";
 
 function App() {
   return (
-    <>
-      <OrderSummary />
-    </>
+    <Container>
+      <OrderDetailsProvider>
+        {/* summary and entry page need provider */}
+        <OrderEntry />
+      </OrderDetailsProvider>
+      {/* Confirmation page does not */}
+    </Container>
   );
 }
 
