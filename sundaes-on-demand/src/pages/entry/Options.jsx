@@ -11,7 +11,7 @@ import { useOrderDetails } from "../../contexts/OrderDetails";
 export default function Options({ optionType }) {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(false);
-  const { totals } = useOrderDetails;
+  const { totals } = useOrderDetails();
   useEffect(() => {
     //optionType is scoops or toppings
     axios

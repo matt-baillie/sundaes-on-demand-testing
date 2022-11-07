@@ -4,8 +4,6 @@ import { pricePerItem } from "../constants";
 const OrderDetails = createContext();
 
 // Create custom hook that checks whether we are in a Provider
-// If it is, return context value
-
 export function useOrderDetails() {
   const contextValue = useContext(OrderDetails);
 
@@ -21,7 +19,7 @@ export function useOrderDetails() {
 export function OrderDetailsProvider(props) {
   const [optionCounts, setOptionCounts] = useState({
     scoops: {},
-    topping: {},
+    toppings: {},
   });
   function updateItemCount(itemName, newItemCount, optionType) {
     // make a copy of existing state
@@ -41,7 +39,6 @@ export function OrderDetailsProvider(props) {
   // utility function to derive totals from optionCounts state value
   function calculateTotal(optionType) {
     // get array of counts for the option types []
-
     const countsArray = Object.values(optionCounts[optionType]);
 
     //total the values in the array of counts for the number of items
