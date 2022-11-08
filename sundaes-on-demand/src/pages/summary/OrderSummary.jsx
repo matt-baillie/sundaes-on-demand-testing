@@ -4,8 +4,9 @@ import { useOrderDetails } from "../../contexts/OrderDetails";
 import { formatCurrency } from "../../utilities";
 
 const OrderSummary = () => {
-  const { totals, optionCounts } = useOrderDetails();
+  const { orderPhase, setOrderPhase, totals, optionCounts } = useOrderDetails();
   const scoopArray = Object.entries(optionCounts.scoops);
+
   const scoopList = scoopArray.map(([key, value]) => (
     <li key={key}>
       {value} {key}
