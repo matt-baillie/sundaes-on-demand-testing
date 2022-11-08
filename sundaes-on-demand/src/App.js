@@ -7,22 +7,27 @@ import OrderConfirmation from "./pages/confirmation/OrderConfirmation";
 
 function App() {
   const [orderPhase, setOrderPhase] = useState("inProgress");
-  const pageChange = setOrderPhase;
-  console.log(orderPhase);
+
+  let Component = OrderEntry;
+
+  switch (orderPhase) {
+    case "inProgress":
+      Component = OrderEntry;
+      break;
+    case "review":
+      Component = OrderSummary;
+      break;
+    case "completed":
+      Component = OrderConfirmation;
+      break;
+    default:
+  }
+
   return (
     <Container>
       <OrderDetailsProvider>
-        {/* summary and entry page need provider */}
-
-        {orderPhase === "inProgress" ? (
-          <OrderEntry pageChange={pageChange} />
-        ) : (
-          <OrderSummary pageChange={pageChange} />
-        )}
-
-        <OrderConfirmation />
+        {<Component setOrderPhase={setOrderPhase} />}
       </OrderDetailsProvider>
-      {/* Confirmation page does not */}
     </Container>
   );
 }

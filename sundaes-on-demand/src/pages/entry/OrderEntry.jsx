@@ -2,8 +2,8 @@ import { useOrderDetails } from "../../contexts/OrderDetails";
 import { formatCurrency } from "../../utilities";
 import Options from "./Options";
 
-export default function OrderEntry({ pageChange }) {
-  const { totals, orderPhase, setOrderPhase } = useOrderDetails();
+export default function OrderEntry({ setOrderPhase }) {
+  const { totals } = useOrderDetails();
 
   return (
     <div>
@@ -11,7 +11,7 @@ export default function OrderEntry({ pageChange }) {
       <Options optionType="scoops" />
       <Options optionType="toppings" />
       <h2>Grand total: {formatCurrency(totals.scoops + totals.toppings)}</h2>
-      <button onClick={() => pageChange("review")}>Order Sundae!</button>
+      <button onClick={() => setOrderPhase("review")}>Order Sundae!</button>
     </div>
   );
 }
