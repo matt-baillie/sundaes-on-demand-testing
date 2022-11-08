@@ -9,10 +9,10 @@ const OrderConfirmation = () => {
   const [orderNumber, setOrderNumber] = useState(null);
 
   useEffect(() => {
-    axios.post("http://localhost:3030/order").then((res) => {
-      console.log(res);
-    });
-  }, [orderNumber]);
+    axios
+      .post("http://localhost:3030/order", {})
+      .then((res) => console.log(res));
+  }, []);
 
   if (!orderNumber) {
     return "Loading";
