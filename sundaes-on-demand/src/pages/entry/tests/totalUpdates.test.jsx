@@ -106,6 +106,7 @@ describe("grand total", () => {
     await user.type(vanillaInput, "1");
     expect(grandTotal).toHaveTextContent("3.50");
   });
+
   test("grand total updates properly if item is removed", async () => {
     render(<OrderEntry />);
     const user = userEvent.setup();
@@ -122,6 +123,7 @@ describe("grand total", () => {
 
     expect(grandTotal).toHaveTextContent("4.00");
 
+    await user.clear(vanillaInput);
     await user.type(vanillaInput, "1");
 
     expect(grandTotal).toHaveTextContent("2.00");

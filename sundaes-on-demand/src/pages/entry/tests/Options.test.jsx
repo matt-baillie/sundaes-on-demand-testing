@@ -1,4 +1,5 @@
 import { render, screen } from "../../../test-utils/testing-library-utils";
+import userEvent from "@testing-library/user-event";
 
 import Options from "../Options";
 
@@ -31,4 +32,33 @@ test("Displays image for each topping option from server", async () => {
     "Hot fudge topping",
     "M&Ms topping",
   ]);
+});
+test("No scoops subtotal update for invalid scoop count", async () => {
+  const user = userEvent.setup();
+  render(<Options optionType="scoops" />);
+
+  // What are we testing?
+  const scoopsSubtotal = screen.getByText("Scoops total: $", {
+    exact: false,
+  });
+  expect(scoopsSubtotal).toHaveTextContent("0.00");
+
+  const vanillaInput = await screen.findByRole("spinbutton", {
+    name: /vanilla/i,
+  });
+  // test negative #
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, "-2");
+  expect(scoopsSubtotal).toHaveTextContent("$0.00");
+
+  // test # >10
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, "11");
+  expect(scoopsSubtotal).toHaveTextContent("$0.00");
+
+  // test 3 with decimal
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, "3.5");
+  expect(scoopsSubtotal).toHaveTextContent("$0.00");
+  // scoops subtotal & scoopInput
 });
