@@ -114,8 +114,14 @@ test("Toppings header not on page if toppings added and then removed", async () 
     name: "Cherries",
   });
   await user.click(cherriesCheckbox);
+  const toppingsSubtotal = screen.getByText(/toppings total: \$/i, {
+    exact: false,
+  });
+  expect(toppingsSubtotal).toHaveTextContent("1.50");
 
   await user.click(cherriesCheckbox);
+  expect(toppingsSubtotal).toHaveTextContent("0.00");
+  expect(cherriesCheckbox).not.toBeChecked();
   const orderButton = screen.getByRole("button", { name: /order sundae!/i });
   await user.click(orderButton);
 
