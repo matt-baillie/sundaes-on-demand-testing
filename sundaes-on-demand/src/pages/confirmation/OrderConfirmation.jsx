@@ -19,7 +19,7 @@ const OrderConfirmation = ({ setOrderPhase }) => {
   }, []);
 
   if (!orderNumber) {
-    return "Loading";
+    return <h2>Loading...</h2>;
   }
   return (
     <>

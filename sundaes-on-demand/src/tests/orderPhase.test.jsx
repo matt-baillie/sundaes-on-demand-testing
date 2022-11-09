@@ -52,7 +52,15 @@ test("Order phases for happy path", async () => {
   expect(confirmButton).toBeEnabled();
   await user.click(confirmButton);
 
+  // Loading appears and disappears
+  const loading = screen.getByRole("heading", { name: "Loading..." });
+  expect(loading).toBeInTheDocument();
   // confirm order number on confirmation page
+  const thankYou = await screen.findByRole("heading", { name: /thank you/i });
+  expect(thankYou).toBeInTheDocument();
+  const notLoading = screen.queryByText("Loading");
+  expect(notLoading).not.toBeInTheDocument();
+
   const orderConfirmation = await screen.findByText(/your order number is/i);
   expect(orderConfirmation).toHaveTextContent("123455676");
 
