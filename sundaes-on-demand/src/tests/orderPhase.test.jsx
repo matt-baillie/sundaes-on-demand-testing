@@ -78,3 +78,52 @@ test("Order phases for happy path", async () => {
   await screen.findByRole("spinbutton", { name: "Vanilla" });
   await screen.findByRole("checkbox", { name: "Cherries" });
 });
+
+test("Hide toppings if not selected", async () => {
+  const user = userEvent.setup();
+  // render(<App />);
+  render(<App />);
+  const vanillaInput = await screen.findByRole("spinbutton", {
+    name: /vanilla/i,
+  });
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, "2");
+  const orderButton = screen.getByRole("button", { name: /order sundae!/i });
+  await user.click(orderButton);
+
+  const scoopsHeading = screen.getByRole("heading", { name: "Scoops: $4.00" });
+  expect(scoopsHeading).toBeInTheDocument();
+
+  const toppingsHeader = screen.queryByRole("heading", { name: /toppings/i });
+  expect(toppingsHeader).not.toBeInTheDocument();
+  //toppings header does not appear
+  // which query do we use to assert something is not on the page?
+  // toppings li do not appear
+});
+
+test("Toppings header not on page if toppings added and then removed", async () => {
+  const user = userEvent.setup();
+  render(<App />);
+  const vanillaInput = await screen.findByRole("spinbutton", {
+    name: /vanilla/i,
+  });
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, "2");
+
+  const cherriesCheckbox = await screen.findByRole("checkbox", {
+    name: "Cherries",
+  });
+  await user.click(cherriesCheckbox);
+
+  await user.click(cherriesCheckbox);
+  const orderButton = screen.getByRole("button", { name: /order sundae!/i });
+  await user.click(orderButton);
+
+  const scoopsHeading = screen.getByRole("heading", {
+    name: "Scoops: $4.00",
+  });
+  expect(scoopsHeading).toBeInTheDocument();
+
+  const toppingsHeader = screen.queryByRole("heading", { name: /toppings/i });
+  expect(toppingsHeader).not.toBeInTheDocument();
+});
